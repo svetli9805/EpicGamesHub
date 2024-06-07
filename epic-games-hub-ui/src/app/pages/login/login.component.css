@@ -1,0 +1,44 @@
+.container-fluid.card.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Центрира текста в контейнера */
+}
+
+.container-fluid.card.login-container h3 {
+  font-size: 36px; /* Увеличава размера на заглавието */
+  margin-bottom: 20px;
+}
+
+.container-fluid.card.login-container label {
+  font-size: 18px; /* Увеличава размера на етикетите */
+  display: block; /* Позволява името на полето и самото поле да са едно под друго */
+}
+
+.container-fluid.card.login-container input {
+  font-size: 16px;
+  margin-bottom: 10px; /* Малко разстояние между полетата */
+}
+
+.container-fluid.card.login-container .btn-primary {
+  font-size: 18px;
+  padding: 10px 20px;
+  background-color: #007bff; /* Син цвят за бутона */
+  border-color: #007bff; /* Син цвят за границите на бутона */
+}
+
+.container-fluid.card.login-container .btn-primary:hover {
+  background-color: #0056b3; /* По-тъмно син цвят при хоувър */
+  border-color: #0056b3;
+}
+
+.container-fluid.card.login-container .btn-link {
+  font-size: 16px;
+  color: #007bff; /* Син цвят за линка */
+}
+
+.container-fluid.card.login-container .btn-link:hover {
+  color: #0056b3; /* По-тъмно син цвят при хоувър */
+}
