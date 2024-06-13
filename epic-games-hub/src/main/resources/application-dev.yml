@@ -45,3 +45,4 @@ application:
       photos-output-path: ./app/uploads
 server:
   port: 8088
+  
