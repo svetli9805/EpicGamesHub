@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/epic_games_hub
+    url: jdbc:postgresql://postgres-sql-bsn:5432/epic_games_hub
     username: username
     password: password
     driver-class-name: org.postgresql.Driver
