@@ -3,7 +3,7 @@ name: BSN Frontend Pipeline
 on:
   push:
     branches:
-      - main
+      - ci/pipeline
     paths:
       - book-network-ui/**
       - docker/frontend/**
@@ -13,18 +13,17 @@ on:
 jobs:
   build-image:
     name: Build FE Docker image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Extract project version
         id: extract_version
         run: |
-          cd epic-games-hub-ui
-          echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_ENV
+          cd book-network-ui
+          echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -39,26 +38,6 @@ jobs:
           file: docker/frontend/Dockerfile
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/bsn-ui:latest,${{ secrets.DOCKERHUB_USERNAME }}/bsn-ui:${{ steps.extract_version.outputs.VERSION }}
-
-  deploy:
-    name: Deploy Frontend to Render
-    runs-on: ubuntu-latest
-    needs: [build-image]
-    steps:
-      - name: Install Render CLI
-        run: |
-          curl -sSL https://render.com/install.sh | sh
-
-      - name: Configure Render credentials
-        run: render login --api-key ${{ secrets.RENDER_API_KEY }}
-
-      - name: Set Render environment variables
-        run: |
-          render secrets add EMAIL_HOST_NAME ${{ secrets.EMAIL_HOST_NAME }}
-          render secrets add EMAIL_USER_NAME ${{ secrets.EMAIL_USER_NAME }}
-          render secrets add EMAIL_PASSWORD ${{ secrets.EMAIL_PASSWORD }}
-
-      - name: Deploy to Render
-        run: |
-          render deploy --name bsn-ui --dir epic-games-hub-ui --override-existing
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/bsn-ui:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/bsn-ui:${{ steps.extract_version.outputs.VERSION }}
