@@ -2,11 +2,11 @@ FROM node:18 as build-stage
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY epic-games-hub-ui/package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY epic-games-hub-ui/ ./
 
 RUN npm run build --prod
 
