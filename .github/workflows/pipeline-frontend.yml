@@ -13,17 +13,21 @@ on:
 jobs:
   build-image:
     name: Build FE Docker image
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Extract project version
         id: extract_version
         run: |
           cd epic-games-hub-ui
           echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
+      - name: List files for debugging
+        run: ls -la
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -34,10 +38,26 @@ jobs:
       - name: Build & Push to DockerHub
         uses: docker/build-push-action@v5
         with:
-          context: epic-games-hub-ui
+          context: .
           file: docker/frontend/Dockerfile
           push: true
-          platforms: linux/amd64
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/bsn-ui:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/bsn-ui:${{ steps.extract_version.outputs.VERSION }}
+
+  deploy:
+    name: Deploy to Render
+    needs: build-image 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.SERVICE_ID }} 
+          api-key: ${{ secrets.RENDER_API_KEY }} 
