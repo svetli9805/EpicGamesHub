@@ -1,14 +1,13 @@
-
 name: BSN Backend API Pipeline
 
 on:
   push:
     branches:
-      - ci/pipeline
+      - main
     paths:
       - epic-games-hub/**
       - docker/backend/**
-      - 'docker-compose.yml'
+      - "docker-compose.yml"
       - .github/workflows/*-backend.yml
 
 jobs:
@@ -24,8 +23,8 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'corretto'
+          java-version: "17"
+          distribution: "corretto"
 
       - name: Running Unit Tests
         run: |
@@ -43,8 +42,8 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'corretto'
+          java-version: "17"
+          distribution: "corretto"
 
       - name: Running Unit Tests
         run: |
@@ -63,8 +62,8 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'corretto'
+          java-version: "17"
+          distribution: "corretto"
 
       - name: Compile project
         run: |
@@ -79,8 +78,8 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'corretto'
+          java-version: "17"
+          distribution: "corretto"
       - name: Extract project version
         id: extract_version
         run: |
@@ -104,7 +103,6 @@ jobs:
           build-args: |
             PROFILE=dev
             APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
-  
 
   deploy:
     name: Deploy Backend to Render
@@ -128,6 +126,7 @@ jobs:
         run: |
           cd epic-games-hub
           render up -f docker-compose.yml -- --build
+
 #  health-check:
 #    name: API Health Check
 #    runs-on: ubuntu

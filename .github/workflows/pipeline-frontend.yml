@@ -3,11 +3,11 @@ name: BSN Frontend Pipeline
 on:
   push:
     branches:
-      - ci/pipeline
+      - main
     paths:
       - book-network-ui/**
       - docker/frontend/**
-      - 'docker-compose.yml'
+      - "docker-compose.yml"
       - .github/workflows/*-frontend.yml
 
 jobs:
