@@ -17,7 +17,12 @@ COPY --from=build /build/target/epic-games-hub-${APP_VERSION}.jar /app/
 EXPOSE 8088
 
 ENV DB_URL=jdbc:postgresql://postgres-sql-bsn:5432/epic_games_hub
+ENV MAILDEV_URL=localhost
+
 ENV ACTIVE_PROFILE=${PROFILE}
 ENV JAR_VERSION=${APP_VERSION}
+ENV EMAIL_HOST_NAME: missing_host_name
+ENV EMAIL_USER_NAME: missing_user_name
+ENV EMAIL_PASSWORD: missing_password
 
 CMD java -jar -Dspring.profiles.active=${ACTIVE_PROFILE} -Dspring.datasource.url=${DB_URL} epic-games-hub-${JAR_VERSION}.jar
